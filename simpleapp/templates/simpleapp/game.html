@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Snake Game</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'simpleapp/snake/style.css' %}">
+  </head>
+  <body>
+    <h1>Snake</h1>
+
+    <div class="snake-wrap">
+      <canvas id="snake-game" width="400" height="400"></canvas>
+      <div class="ui">
+        <div id="snake-score">Score: 0</div>
+        <button id="snake-restart">Restart</button>
+      </div>
+      <div id="snake-overlay" class="hidden">Game Over<br><button id="snake-overlay-restart">Play Again</button></div>
+    </div>
+
+    <script src="{% static 'simpleapp/snake/game.js' %}"></script>
+  </body>
+</html>

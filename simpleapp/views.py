@@ -3,3 +3,7 @@ from django.shortcuts import render
 
 def index(request):
     return render(request, 'simpleapp/index.html')
+
+
+def snake_game(request):
+    return render(request, 'simpleapp/game.html')
