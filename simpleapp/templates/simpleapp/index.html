@@ -5,14 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Simple Django App</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'simpleapp/snake/style.css' %}">
+    <link rel="stylesheet" href="{% static 'simpleapp/css/global.css' %}">
   </head>
   <body>
     <h1>Welcome to simpleapp</h1>
     <p>This is a minimal Django app scaffolded inside the workspace.</p>
 
-    <p>
-      <a href="{% url 'snake_game' %}" class="play-button">Play Snake</a>
-    </p>
+    <div class="container">
+      <div class="page-header">
+        <p class="muted">This is a minimal Django app scaffolded inside the workspace.</p>
+      </div>
+
+      <p>
+        <a href="{% url 'snake_game' %}" class="play-button">Play Snake</a>
+      </p>
+    </div>
   </body>
 </html>
