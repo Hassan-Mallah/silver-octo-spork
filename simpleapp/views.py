@@ -7,3 +7,7 @@ def index(request):
 
 def snake_game(request):
     return render(request, 'simpleapp/game.html')
+
+
+def game_2048(request):
+    return render(request, 'simpleapp/game_2048.html')
