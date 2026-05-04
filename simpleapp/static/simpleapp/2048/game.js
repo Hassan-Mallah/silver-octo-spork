@@ -32,7 +32,31 @@ document.addEventListener('DOMContentLoaded', function () {
     board = new Array(CELLS).fill(0);
     addRandomTile();
     addRandomTile();
+    hideGameOver();
     drawGrid();
+  }
+
+  function isGameOver() {
+    if (empties().length > 0) return false;
+    for (let r = 0; r < SIZE; r++) {
+      for (let c = 0; c < SIZE; c++) {
+        const idx = r * SIZE + c;
+        const val = board[idx];
+        if (c < SIZE - 1 && board[idx + 1] === val) return false;
+        if (r < SIZE - 1 && board[idx + SIZE] === val) return false;
+      }
+    }
+    return true;
+  }
+
+  function showGameOver() {
+    const ov = document.getElementById('overlay-2048');
+    if (ov) ov.classList.remove('hidden');
+  }
+
+  function hideGameOver() {
+    const ov = document.getElementById('overlay-2048');
+    if (ov) ov.classList.add('hidden');
   }
 
   function compress(row) {
@@ -121,6 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (moved) {
       addRandomTile();
       drawGrid();
+      if (isGameOver()) showGameOver();
     }
   }
 
@@ -131,6 +156,13 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('restart-2048').addEventListener('click', function () {
     resetBoard();
   });
+
+  const ovBtn = document.getElementById('overlay-2048-restart');
+  if (ovBtn) {
+    ovBtn.addEventListener('click', function () {
+      resetBoard();
+    });
+  }
 
   window.addEventListener('keydown', function (e) {
     const keys = {
@@ -146,5 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // initialize on load
+  // ensure overlay is hidden on initial load
+  hideGameOver();
   drawGrid();
 });
