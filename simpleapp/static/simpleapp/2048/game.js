@@ -9,9 +9,13 @@ document.addEventListener('DOMContentLoaded', function () {
     gridEl.style.gridTemplateColumns = `repeat(${SIZE}, 1fr)`;
     for (let i = 0; i < CELLS; i++) {
       const cell = document.createElement('div');
-      cell.className = 'tile' + (board[i] === 0 ? ' empty' : '');
+      const val = board[i];
+      const classes = ['tile'];
+      if (val === 0) classes.push('empty');
+      else classes.push('tile-' + val);
+      cell.className = classes.join(' ');
       cell.dataset.index = i;
-      cell.textContent = board[i] === 0 ? '' : board[i];
+      cell.textContent = val === 0 ? '' : val;
       gridEl.appendChild(cell);
     }
   }

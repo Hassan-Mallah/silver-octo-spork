@@ -1,0 +1,43 @@
+.grid.tictoc {
+  display: grid;
+  grid-template-columns: repeat(3, 120px);
+  gap: 8px;
+  width: max-content;
+  margin: 12px 0;
+}
+
+.cell {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f3f3;
+  border-radius: 8px;
+  font-size: 48px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cell.empty { background: #ffffff; }
+.cell.x { color: #1b5e20; }
+.cell.o { color: #0d47a1; }
+
+#overlay-tic{
+  position: absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.6);
+  color:#fff;
+  font-size:24px;
+  flex-direction:column;
+  gap:12px;
+  border-radius:8px;
+}
+
+#overlay-tic.hidden{ display:none }
+
+.game-tictoc-wrap{ position:relative; display:inline-block }

@@ -11,3 +11,7 @@ def snake_game(request):
 
 def game_2048(request):
     return render(request, 'simpleapp/game_2048.html')
+
+
+def tic_toc_game(request):
+    return render(request, 'simpleapp/game_tictoc.html')

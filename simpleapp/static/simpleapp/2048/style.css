@@ -42,3 +42,22 @@
 #overlay-2048.hidden{ display: none }
 
 .hidden{ display:none }
+
+/* Tile colors for different values (classic 2048 palette) */
+.tile { color: #776e65; }
+.tile-2 { background: #eee4da; color: #776e65; }
+.tile-4 { background: #b9f70d; color: #776e65; }
+.tile-8 { background: #f2b179; color: #f9f6f2; }
+.tile-16 { background: #0cafd8; color: #f9f6f2; }
+.tile-32 { background: #f67c5f; color: #f9f6f2; }
+.tile-64 { background: #160704; color: #f9f6f2; }
+.tile-128 { background: #93d6c7; color: #1f1f1f; font-size: 20px; }
+.tile-256 { background: #5b9df0; color: #f9f6f2; font-size: 20px; }
+.tile-512 { background: #8e7df6; color: #f9f6f2; font-size: 18px; }
+.tile-1024 { background: #edc53f; color: #f9f6f2; font-size: 16px; }
+.tile-2048 { background: #d84381; color: #f9f6f2; font-size: 16px; }
+.tile-4096 { background: #1db676; color: #f9f6f2; }
+.tile-8192 { background: #3c3a32; color: #f9f6f2; }
+
+/* ensure empty tiles visually distinct */
+.tile.empty { background: #eee4da; color: transparent; }
