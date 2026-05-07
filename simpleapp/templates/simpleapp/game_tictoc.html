@@ -14,6 +14,7 @@
 
     <div class="game-tictoc-wrap">
       <div id="tic-grid" class="grid"></div>
+      <div id="tic-status">Click Start to begin</div>
       <div class="ui">
         <button id="start-tic">Start</button>
         <button id="restart-tic">Restart</button>
@@ -21,6 +22,17 @@
     </div>
 
     <div id="overlay-tic" class="hidden">Game Over<br><span id="tic-winner"></span><br><button id="overlay-tic-restart">Play Again</button></div>
+
+    <div id="choose-overlay" class="hidden">
+      <div class="choose-box">
+        <div class="choose-text">Choose symbol</div>
+        <div class="choose-buttons">
+          <button id="choose-x">X</button>
+          <button id="choose-o">O</button>
+          <button id="choose-cancel">Cancel</button>
+        </div>
+      </div>
+    </div>
 
     <script src="{% static 'simpleapp/tictoc/game.js' %}"></script>
   </body>

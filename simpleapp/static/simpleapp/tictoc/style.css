@@ -41,3 +41,20 @@
 #overlay-tic.hidden{ display:none }
 
 .game-tictoc-wrap{ position:relative; display:inline-block }
+
+#choose-overlay{
+  position: absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.6);
+}
+
+#choose-overlay.hidden{ display:none }
+
+.choose-box{ background:#fff; color:#000; padding:18px; border-radius:8px; display:flex; flex-direction:column; gap:12px; align-items:center }
+.choose-text{ font-size:20px }
+.choose-buttons button{ margin:0 6px; padding:8px 12px; font-size:18px }
+
+#tic-status{ margin-top:8px; font-weight:600 }

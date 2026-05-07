@@ -3,8 +3,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const SIZE = 3;
   const CELLS = SIZE * SIZE;
   let board = new Array(CELLS).fill('');
-  let current = 'X';
   let running = false;
+  let turn = 1; // player 1 or 2
+  let pendingIndex = null;
+  let aiThinking = false;
 
   function drawGrid() {
     gridEl.innerHTML = '';
@@ -17,40 +19,27 @@ document.addEventListener('DOMContentLoaded', function () {
       cell.addEventListener('click', onCellClick);
       gridEl.appendChild(cell);
     }
+    const status = document.getElementById('tic-status');
+    if (status) {
+      status.textContent = running ? `Player ${turn}'s turn` : 'Click Start to begin';
+    }
   }
 
   function onCellClick(e) {
     if (!running) return;
     const i = Number(e.currentTarget.dataset.index);
     if (board[i] !== '') return;
-    board[i] = current;
-    drawGrid();
-    const winner = checkWin();
-    if (winner) {
-      if (winner === 'draw') showGameOver('Draw');
-      else if (winner === 'O') showGameOver('Computer wins');
-      else showGameOver(winner + ' wins');
-      running = false;
-      return;
-    }
-    current = current === 'X' ? 'O' : 'X';
-
-    // if it's computer's turn, make AI move
-    if (running && current === 'O') {
-      // small delay to simulate thinking
-      running = false;
-      setTimeout(() => {
-        aiMove();
-        running = true;
-      }, 250);
-    }
+    pendingIndex = i;
+    showChooseOverlay();
   }
 
   function startGame() {
     board = new Array(CELLS).fill('');
-    current = 'X';
+    turn = 1;
+    pendingIndex = null;
     running = true;
     hideGameOver();
+    hideChooseOverlay();
     drawGrid();
   }
 
@@ -78,27 +67,76 @@ document.addEventListener('DOMContentLoaded', function () {
     const ov = document.getElementById('overlay-tic');
     if (ov) ov.classList.add('hidden');
   }
+  // Choice overlay handling for symbol selection by the clicking player
+  function showChooseOverlay() {
+    const ov = document.getElementById('choose-overlay');
+    if (ov) ov.classList.remove('hidden');
+  }
 
-  // AI: minimax for unbeatable play (O is computer)
-  function aiMove() {
-    const best = minimax(board.slice(), 'O');
+  function hideChooseOverlay() {
+    const ov = document.getElementById('choose-overlay');
+    if (ov) ov.classList.add('hidden');
+  }
+
+  function placeSymbol(sym) {
+    if (pendingIndex == null) return;
+    board[pendingIndex] = sym;
+    pendingIndex = null;
+    drawGrid();
+    const winner = checkWin();
+    if (winner) {
+      if (winner === 'draw') showGameOver('Draw');
+      else showGameOver(winner + ' wins');
+      running = false;
+      return;
+    }
+    turn = turn === 1 ? 2 : 1;
+    hideChooseOverlay();
+    // after player places, let AI play the opposite symbol
+    if (running) {
+      const aiSym = sym === 'X' ? 'O' : 'X';
+      aiThinking = true;
+      drawGrid();
+      setTimeout(() => {
+        aiMove(aiSym);
+      }, 250);
+    }
+  }
+
+  document.getElementById('start-tic').addEventListener('click', startGame);
+  document.getElementById('restart-tic').addEventListener('click', startGame);
+  const ovBtn = document.getElementById('overlay-tic-restart');
+  if (ovBtn) ovBtn.addEventListener('click', startGame);
+
+  // choose overlay buttons
+  const chooseX = document.getElementById('choose-x');
+  const chooseO = document.getElementById('choose-o');
+  const chooseCancel = document.getElementById('choose-cancel');
+  if (chooseX) chooseX.addEventListener('click', () => placeSymbol('X'));
+  if (chooseO) chooseO.addEventListener('click', () => placeSymbol('O'));
+  if (chooseCancel) chooseCancel.addEventListener('click', () => { pendingIndex = null; hideChooseOverlay(); });
+
+  // AI: minimax for unbeatable play
+  function aiMove(aiSymbol) {
+    const best = minimax(board.slice(), aiSymbol);
     if (best && typeof best.index === 'number') {
-      board[best.index] = 'O';
+      board[best.index] = aiSymbol;
+      aiThinking = false;
       drawGrid();
       const winner = checkWin();
       if (winner) {
         if (winner === 'draw') showGameOver('Draw');
-        else if (winner === 'O') showGameOver('Computer wins');
+        else if (winner === aiSymbol) showGameOver('Computer wins');
         else showGameOver(winner + ' wins');
         running = false;
         return;
       }
-      current = 'X';
+      turn = 1; // back to player
     }
   }
 
   function minimax(bd, player) {
-    const winner = (function check(b) {
+    const checkWinner = (function (b) {
       const lines = [
         [0,1,2],[3,4,5],[6,7,8],
         [0,3,6],[1,4,7],[2,5,8],
@@ -107,13 +145,13 @@ document.addEventListener('DOMContentLoaded', function () {
       for (const [a,b1,c] of lines) {
         if (b[a] && b[a] === b[b1] && b[a] === b[c]) return b[a];
       }
-      if (bd.every(v=>v!=='')) return 'draw';
+      if (b.every(v=>v!=='')) return 'draw';
       return null;
     })(bd);
 
-    if (winner === 'O') return { score: 10 };
-    if (winner === 'X') return { score: -10 };
-    if (winner === 'draw') return { score: 0 };
+    if (checkWinner === 'draw') return { score: 0 };
+    if (checkWinner === 'X') return { score: -10 };
+    if (checkWinner === 'O') return { score: 10 };
 
     const avail = [];
     for (let i = 0; i < bd.length; i++) if (bd[i] === '') avail.push(i);
@@ -140,12 +178,8 @@ document.addEventListener('DOMContentLoaded', function () {
     return bestMove;
   }
 
-  document.getElementById('start-tic').addEventListener('click', startGame);
-  document.getElementById('restart-tic').addEventListener('click', startGame);
-  const ovBtn = document.getElementById('overlay-tic-restart');
-  if (ovBtn) ovBtn.addEventListener('click', startGame);
-
   // init
   hideGameOver();
+  hideChooseOverlay();
   drawGrid();
 });
