@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function showGameOver(text) {
     const ov = document.getElementById('overlay-tic');
     const winnerSpan = document.getElementById('tic-winner');
+    hideChooseOverlay();
     if (winnerSpan) winnerSpan.textContent = text;
     if (ov) ov.classList.remove('hidden');
   }
@@ -83,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
     board[pendingIndex] = sym;
     pendingIndex = null;
     drawGrid();
+    hideChooseOverlay();
     const winner = checkWin();
     if (winner) {
       if (winner === 'draw') showGameOver('Draw');
@@ -91,7 +93,6 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
     turn = turn === 1 ? 2 : 1;
-    hideChooseOverlay();
     // after player places, let AI play the opposite symbol
     if (running) {
       const aiSym = sym === 'X' ? 'O' : 'X';
