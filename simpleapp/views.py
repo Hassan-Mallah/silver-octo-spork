@@ -14,4 +14,4 @@ def game_2048(request):
 
 
 def tic_toc_game(request):
-    return render(request, 'simpleapp/game_tictoc.html')
+    return render(request, 'simpleapp/game_wild_tictoc.html')

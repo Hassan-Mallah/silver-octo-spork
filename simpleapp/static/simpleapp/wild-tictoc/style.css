@@ -1,4 +1,4 @@
-.grid.tictoc {
+.grid.wild-tictoc {
   display: grid;
   grid-template-columns: repeat(3, 120px);
   gap: 8px;
@@ -41,7 +41,7 @@
 
 #overlay-tic.hidden{ display:none }
 
-.game-tictoc-wrap{ position:relative; display:inline-block }
+.game-wild-tictoc-wrap{ position:relative; display:inline-block }
 
 #choose-overlay{
   position: absolute;

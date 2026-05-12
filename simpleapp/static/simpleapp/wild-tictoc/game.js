@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function drawGrid() {
     gridEl.innerHTML = '';
-    gridEl.className = 'grid tictoc';
+    gridEl.className = 'grid wild-tictoc';
     for (let i = 0; i < CELLS; i++) {
       const cell = document.createElement('div');
       cell.className = 'cell' + (board[i] === '' ? ' empty' : ' ' + board[i].toLowerCase());
